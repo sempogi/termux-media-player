@@ -1,19 +1,33 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #termux-media-player wrapper
 #pure bash code.
-
+#find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
 cnter=0
-cat mp4.list | while read line
+cd
+#if [ -e "all.list"  ]; then
+# echo "Playlist  Found" 
+   
+#else
+        
+        echo "Updating playlist Please wait........."
+        find -L ~/storage/shared/mp3s/ -type f -ipath '*.mp3' >all.list
+        find -L ~/storage/shared/youtube/ -type f -ipath '*.mp4' >>all.list
+        find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+        echo " Scanning Finished!"
+   
+#fi
+cat all.list | while read line
    do  
         ((cnter++))
   # echo '"'$line'"' >tmmp
   echo "$cnter">cnt 
    done
+   
 cnt=$(<cnt)
 line=$(shuf -i 1-"$cnt" -n 1)
 echo "$line"
 #line=1
-prep=`grep -ne ^ mp4.list | grep -e ^$line:`
+prep=`grep -ne ^ all.list | grep -e ^$line:`
 echo "${prep#$line:}">track
 track=$(<track)
 figlet " " SEM
@@ -32,37 +46,41 @@ fdir="tmp"
 case "$yy" in
 No*)
 #echo "Not Playing"
-termux-media-player play "$track"
-
-
+#termux-media-player play "$track"
 ((line++))
-prep=`grep -ne ^ mp4.list | grep -e ^$line:`
+
+
+prep=`grep -ne ^ all.list | grep -e ^$line:`
 echo "${prep#$line:}">track
 track=$(<track)
 echo "$line">line
+termux-media-player play "$track"
 
 
 
 
 ;;
+
 *ause*)
-prev=$(<prev)
- case "$prev" in
- yes)
- echo no>prev
- ((line--))
- ((line--))
- prep=`grep -ne ^ mp4.list | grep -e ^$line:`
-echo "${prep#$line:}">track
-track=$(<track)
-echo "$line">line
-termux-media-player stop
- ;;
- 
- esac
+       prev=$(<prev)
+       case "$prev" in
+               yes)
+                    echo no>prev
+                    ((line--))
+                     prep=`grep -ne ^ all.list | grep -e ^$line:`
+                     echo "${prep#$line:}">track
+                     track=$(<track)
+                     echo "$line">line
+                     termux-media-player stop
+                     ((line--))
+                  ;;
+          esac
 ;;
 esac
  
  done
  termux-media-player stop
+ termux-notification-remove $$
+#push server https://github.com/sempogi/termux-media-player.git
  
+

@@ -1,4 +1,4 @@
-echo "# termux-media-player" >> README.md
+# termux-media-player" >> README.md
 git init
 git add *.*
 git commit -m "Second"
