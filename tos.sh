@@ -75,7 +75,7 @@ echo 'track=$(<track)' >>playl.sh
 echo 'echo "$choice">line' >>playl.sh
 echo 'termux-media-player play "$track"' >>playl.sh
 echo 'id1=$(<id)' >>playl.sh
-#echo 'termux-notification --action "mediaplay 'serve' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$choice" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id "$id1" --on-delete "rm -rf  tmp"  ' >>playl.sh
+echo 'termux-notification --action "mediaplay 'serve' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$choice" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id "$id1" --on-delete "rm -rf  tmp"  ' >>playl.sh
 echo 'bash playl.sh'>>playl.sh
 #end of playl.sh script
 echo "Playlist Created!"
