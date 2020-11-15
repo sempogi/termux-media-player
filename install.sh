@@ -32,7 +32,11 @@ else
 echo "Directory not found!!!"
 
 fi
+if [ -d $HOME/termux-media-player ]; then
+rm -rf $HOME/termux-media-player
+fi
 git clone https://github.com/sempogi/termux-media-player.git
+
 if [ -d $HOME/termux-media-player ]; then
 cd $HOME/termux-media-player
 cp test.png $HOME/test.png
@@ -54,7 +58,7 @@ else
 mkdir $HOME/.shortcuts
 echo "Trying to creat Shortcuts"
 fi
-echo "mediaplay"> $HOME/.shortcuts/Mediaplayer.sh
+echo "mediaplay start"> $HOME/.shortcuts/Mediaplayer.sh
 
 if  [ -e  $HOME/.shortcuts/Mediaplayer.sh ]; then
 chmod +x  $HOME/.shortcuts/Mediaplayer.sh
