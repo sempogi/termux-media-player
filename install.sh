@@ -21,7 +21,7 @@ pkg install mpv
 pkg install ffmpeg
 #optional 
 pkg install nodejs
-pkg install youtube-dl #use for downloading videos
+pkg install youtube_dl #use for downloading videos
 
 
 echo "Setting up Environment"
@@ -32,7 +32,7 @@ echo "Directory not found!!!"
 
 fi
 git clone https://github.com/sempogi/termux-media-player.git
-if [ -d termux-media-player]; then
+if [ -d $HOME/termux-media-player ]; then
 cd $HOME/termux-media-player
 cp test.png $HOME/test.png
 
