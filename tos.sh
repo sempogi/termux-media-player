@@ -3,7 +3,9 @@
 #pure bash code.
 #with playlist function!!!
 #find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
-
+if [ -d tmp ]; then
+exit
+fi
 commu=$1
 
 case $commu in 
@@ -180,6 +182,7 @@ esac
  done
  termux-media-player stop
  termux-notification-remove $$
+ rm -rf tmp
 #push server https://github.com/sempogi/termux-media-player.git
  ;;
  serve)
@@ -246,7 +249,7 @@ esac
  done
  termux-media-player stop
  termux-notification-remove $$
- 
+ rm -rf tmp
  ;;
  *)
  echo "Im just A Media Player"
