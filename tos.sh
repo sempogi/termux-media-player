@@ -3,6 +3,11 @@
 #pure bash code.
 #with playlist function!!!
 #find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
+
+commu=$1
+
+case $commu in 
+start)
 cnter=0
 cd  $HOME      
 echo $$>id
@@ -70,7 +75,7 @@ echo 'track=$(<track)' >>playl.sh
 echo 'echo "$choice">line' >>playl.sh
 echo 'termux-media-player play "$track"' >>playl.sh
 echo 'id1=$(<id)' >>playl.sh
-echo 'termux-notification --action "termux-toast 'Sem Is My Name' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$choice" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id "$id1" --on-delete "rm -rf  tmp"  ' >>playl.sh
+#echo 'termux-notification --action "mediaplay 'serve' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$choice" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id "$id1" --on-delete "rm -rf  tmp"  ' >>playl.sh
 echo 'bash playl.sh'>>playl.sh
 #end of playl.sh script
 echo "Playlist Created!"
@@ -174,5 +179,76 @@ esac
  termux-media-player stop
  termux-notification-remove $$
 #push server https://github.com/sempogi/termux-media-player.git
+ ;;
+ serve)
+ cnt=$(<cnt)
+ echo "Music Daemon Running.........listening"
+echo "Open New Temux Session"
+echo "Type cd and the bash playl.sh"  
+echo "$cnt songs available"
+
+#bash playl.sh
+mkdir -p tmp
+fdir="tmp"
+ while [[ -d $fdir ]]
+ do
+ sleep 5
  
+ 
+ 
+
+ 
+ line=$(<line)
+ pinfo=$(termux-media-player info)
+ termux-notification --action "termux-toast 'Sem Is My Name' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$line of $cnt" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+ 
+ echo $(termux-media-player info)>stat
+ yy=$(<stat)
+case "$yy" in
+No*)
+#echo "Not Playing"
+#termux-media-player play "$track"
+((line++))
+
+
+prep=`grep -ne ^ all.list | grep -e ^$line:`
+echo "${prep#$line:}">track
+track=$(<track)
+echo "$line">line
+termux-media-player play "$track"
+
+
+
+
+;;
+
+*ause*)
+       prev=$(<prev)
+       case "$prev" in
+               yes)
+                    echo no>prev
+                    ((line--))
+                     prep=`grep -ne ^ all.list | grep -e ^$line:`
+                     echo "${prep#$line:}">track
+                     track=$(<track)
+                     
+                     termux-media-player stop
+                     ((line--))
+                     echo "$line">line
+                  ;;
+          esac
+;;
+esac
+ 
+ done
+ termux-media-player stop
+ termux-notification-remove $$
+ 
+ ;;
+ *)
+ echo "Im just A Media Player"
+ echo  "mediaplay start to begin"
+ echo  "or bash tor.sh start"
+ ;;
+ esac
 
