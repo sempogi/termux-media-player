@@ -4,13 +4,33 @@
 #with playlist function!!!
 #find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
 cnter=0
-cd        
-clear
-        echo "Updating playlist Please wait........."
-        find -L ~/storage/shared/mp3s/ -type f -ipath '*.mp3' >all.list
+cd  $HOME      
+echo $$>id
+clear 
+if [ -e first ]; then
+ line=$(<line)
+ else
+ echo 1>line
+ echo "init">first
+ fi
+
+DIALOG=${DIALOG=dialog}
+
+$DIALOG --title " Media Scanner" --clear \
+        --yesno "Would You like to scan ?" 10 30
+
+case $? in
+  0)
+  clear
+figlet " "SEM
+        echo "Please wait........................ok"
+        echo "Searching media....................ok"
+        find -L ~/storage/shared/ -type f -ipath '*.mp3' >all.list
         find -L ~/storage/shared/youtube/ -type f -ipath '*.mp4' >>all.list
         find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
-        echo " Scanning Finished!"
+        echo 1>line
+        
+                echo "Creating Playlist.................wait"
  #----------
 echo '#!/bin/sh' >playl.sh
 echo 'DIALOG=${DIALOG=dialog}'>>playl.sh
@@ -39,7 +59,7 @@ cat all.list | while read line
    #playl.sh footer
    
    
-echo '  en "This the End of Playlist" on  2> $tempfile' >>playl.sh
+echo '  enjoy "This the End of Playlist" on  2> $tempfile' >>playl.sh
 echo "" >>playl.sh
 echo 'choice=`cat $tempfile`'>>playl.sh
 echo 'echo "index: $choice"' >>playl.sh
@@ -49,9 +69,37 @@ echo 'track=$(<track)' >>playl.sh
 #echo "$choice">line
 echo 'echo "$choice">line' >>playl.sh
 echo 'termux-media-player play "$track"' >>playl.sh
+echo 'id1=$(<id)' >>playl.sh
+echo 'termux-notification --action "termux-toast 'Sem Is My Name' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$choice" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id "$id1" --on-delete "rm -rf  tmp"  ' >>playl.sh
 echo 'bash playl.sh'>>playl.sh
 #end of playl.sh script
-   
+echo "Playlist Created!"
+chmod +x playl.sh
+        
+;;
+  1)
+  if [ -e all.list ]; then
+  clear
+  figlet " " SEM
+    echo "Loading old playlist................."
+  else
+  echo "No playlis Found,  <quitting>"
+  exit
+  fi
+    ;;
+  255)
+    echo "Exiting"
+    exit
+;;
+esac
+
+
+
+        
+
+
+echo "Open New Temux Session"
+echo "Type cd and the bash playl.sh"   
    
    
 cnt=$(<cnt)
@@ -62,16 +110,19 @@ echo "$line"
 prep=`grep -ne ^ all.list | grep -e ^$line:`
 echo "${prep#$line:}">track
 track=$(<track)
+clear
 figlet " " SEM
-echo "Music Daemon Running......."
+echo "Music Daemon Running.........listening"
+echo "Open New Temux Session"
+echo "Type cd and the bash playl.sh"  
 echo "$cnt songs available"
-chmod +x playl.sh
+
 #bash playl.sh
 mkdir -p tmp
 fdir="tmp"
  while [[ -d $fdir ]]
  do
- #sleep 1
+ sleep 5
  
  
  
