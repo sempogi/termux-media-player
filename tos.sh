@@ -40,6 +40,7 @@ figlet " "SEM
                 echo "Creating Playlist.................wait"
  #----------
 echo '#!/bin/sh' >playl.sh
+echo 'cd $HOME'>>playl.sh
 echo 'DIALOG=${DIALOG=dialog}'>>playl.sh
 echo 'tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$' >>playl.sh
 echo 'trap "rm -f $tempfile" 0 1 2 5 15'  >>playl.sh
@@ -78,13 +79,16 @@ echo 'echo "$choice">line' >>playl.sh
 echo 'termux-media-player play "$track"' >>playl.sh
 echo 'id1=$(<id)' >>playl.sh
 #echo 'termux-notification --action "mediaplay 'serve' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$choice" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id "$id1" --on-delete "rm -rf  tmp"  ' >>playl.sh
-echo 'mediaplay serve'>>playl.sh
-echo 'bash playl.sh'>>playl.sh
+#echo 'mediaplay serve'>>playl.sh
+echo 'showplay'>>playl.sh
 
 #end of playl.sh script
 echo "Playlist Created!"
 chmod +x playl.sh
-        
+ cp playl.sh $PREFIX/bin/showplay
+chmod +x $PREFIX/bin/showplay
+
+     
 ;;
   1)
   if [ -e all.list ]; then
