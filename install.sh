@@ -3,6 +3,7 @@
 #Arm64 Xiaomi Mi A3 Android 10
 #Code Editor termux nano and QuickEdit+
 #interpreter termux android
+#Nov. 15 2020
 cd $HOME
 echo "installing dependencies"
 echo "please allow termux to access storage"
@@ -21,8 +22,8 @@ pkg install mpv
 pkg install ffmpeg
 #optional 
 pkg install nodejs
-pkg install youtube_dl #use for downloading videos
-
+ #use for downloading videos
+pip install --upgrade youtube_dl
 
 echo "Setting up Environment"
 if [ -d ~/storage/shared/ ]; then
@@ -35,7 +36,7 @@ git clone https://github.com/sempogi/termux-media-player.git
 if [ -d $HOME/termux-media-player ]; then
 cd $HOME/termux-media-player
 cp test.png $HOME/test.png
-
+echo "Githud Directory Exist"
 else
 echo "Working directory not found..try running again"
 exit
@@ -51,6 +52,7 @@ echo "Installing Shotcuts"
 
 else
 mkdir $HOME/.shortcuts
+echo "Trying to creat Shortcuts"
 fi
 echo "mediaplay"> $HOME/.shortcuts/Mediaplayer.sh
 
@@ -59,5 +61,6 @@ chmod +x  $HOME/.shortcuts/Mediaplayer.sh
 echo "Shortcut Installed"
 fi
 figlet " " SEM
-echo "CODEX45🥱"
+echo "CODEX4"
+echo "type '"mediaplay"' and hit enter"
 #mediaplay
