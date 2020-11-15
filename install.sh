@@ -3,6 +3,7 @@
 #Arm64 Xiaomi Mi A3 Android 10
 #Code Editor termux nano and QuickEdit+
 #interpreter termux android
+cd $HOME
 echo "installing dependencies"
 echo "please allow termux to access storage"
 sleep 5
@@ -31,7 +32,7 @@ echo "Directory not found!!!"
 
 fi
 git clone https://github.com/sempogi/termux-media-player.git
-if [ -d termux-media-player ]; then
+if [ -d termux-media-player]; then
 cd $HOME/termux-media-player
 cp test.png $HOME/test.png
 
@@ -57,4 +58,6 @@ if  [ -e  $HOME/.shortcuts/Mediaplayer.sh ]; then
 chmod +x  $HOME/.shortcuts/Mediaplayer.sh
 echo "Shortcut Installed"
 fi
-mediaplay
+figlet " " SEM
+echo "CODEX45🥱"
+#mediaplay
