@@ -130,7 +130,6 @@ echo "Open New Temux Session"
 echo "Type cd and the bash playl.sh"  
 echo "$cnt songs available"
 
-#bash playl.sh
 mkdir -p tmp
 fdir="tmp"
  while [[ -d $fdir ]]
@@ -186,7 +185,7 @@ esac
  done
  termux-media-player stop
  termux-notification-remove $$
- rm -rf tmp
+ 
 #push server https://github.com/sempogi/termux-media-player.git
  ;;
  serve)
@@ -253,7 +252,7 @@ esac
  done
  termux-media-player stop
  termux-notification-remove $$
- rm -rf tmp
+ 
  ;;
  *)
  echo "Im just A Media Player"
