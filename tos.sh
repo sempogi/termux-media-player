@@ -3,9 +3,15 @@
 #pure bash code.
 #with playlist function!!!
 #find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
-if [ -d tmp ]; then
+if [ -e "$PREFIX/tmp/media.play" ]; then
+termux-toast "Only One Instance is Allowed" || echo "Only 1 instance of program to run is allow"
 exit
 fi
+iamrunning="$PREFIX/tmp/media.play"
+>$iamrunning
+trap "rm -f $iamrunning" 0 1 2 5 15
+
+cd
 commu=$1
 
 case $commu in 
@@ -39,7 +45,8 @@ figlet " "SEM
         
                 echo "Creating Playlist.................wait"
  #----------
-echo '#!/bin/sh' >playl.sh
+echo '#!/data/data/com.termux/files/usr/bin/bash' >playl.sh
+echo '#Auto generated script fo playlist control of mediaplay--coded by semsabiduria' >>playl.sh
 echo 'cd $HOME'>>playl.sh
 echo 'DIALOG=${DIALOG=dialog}'>>playl.sh
 echo 'tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$' >>playl.sh
@@ -69,8 +76,17 @@ cat all.list | while read line
    
 echo '  enjoy "This the End of Playlist" on  2> $tempfile' >>playl.sh
 echo "" >>playl.sh
+echo 'retval=$?'>>playl.sh
+echo 'if [ -e "$tempfile" ]; then' >>playl.sh
 echo 'choice=`cat $tempfile`'>>playl.sh
+echo 'else' >> playl.sh
+echo 'exit' >>playl.sh
+echo 'fi' >>playl.sh
 echo 'echo "index: $choice"' >>playl.sh
+echo 'case $retval in'>>playl.sh
+echo '0)echo " Hello" ;;' >>playl.sh
+echo '*)exit;;' >>playl.sh
+echo 'esac'>>playl.sh
  echo ' prep=`grep -ne ^ all.list | grep -e ^$choice:`' >>playl.sh
  echo 'echo "${prep#$choice:}">track' >>playl.sh
 echo 'track=$(<track)' >>playl.sh
@@ -85,8 +101,8 @@ echo 'bash playl.sh'>>playl.sh
 #end of playl.sh script
 echo "Playlist Created!"
 chmod +x playl.sh
- #cp playl.sh $PREFIX/bin/showplay
-#chmod +x $PREFIX/bin/showplay
+cp playl.sh $PREFIX/bin/showplay
+chmod +x $PREFIX/bin/showplay
 
      
 ;;
@@ -124,17 +140,20 @@ prep=`grep -ne ^ all.list | grep -e ^$line:`
 echo "${prep#$line:}">track
 track=$(<track)
 clear
-figlet " " SEM
-echo "Music Daemon Running.........listening"
-echo "Open New Temux Session"
-echo "Type cd and the bash playl.sh"  
-echo "$cnt songs available"
+
+
 
 mkdir -p tmp
 fdir="tmp"
  while [[ -d $fdir ]]
  do
- sleep 5
+ figlet " "Sem
+ echo "Music Daemon Running.........listening"
+echo "$line of $cnt"
+echo ""
+echo "$yy"
+ 
+# sleep 1
  
  
  
@@ -146,6 +165,7 @@ fdir="tmp"
  
  echo $(termux-media-player info)>stat
  yy=$(<stat)
+ clear
 case "$yy" in
 No*)
 #echo "Not Playing"
