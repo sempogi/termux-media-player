@@ -46,16 +46,16 @@ figlet " "SEM
                 echo "Creating Playlist.................wait"
  #----------
 echo '#!/data/data/com.termux/files/usr/bin/bash' >playl.sh
-echo '#Auto generated script fo playlist control of mediaplay--coded by semsabiduria' >>playl.sh
+echo '#Auto generated script for playlist control of mediaplay--coded by semsabiduria' >>playl.sh
 echo 'cd $HOME'>>playl.sh
 echo 'DIALOG=${DIALOG=dialog}'>>playl.sh
 echo 'tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$' >>playl.sh
 echo 'trap "rm -f $tempfile" 0 1 2 5 15'  >>playl.sh
 echo "" >>playl.sh
 #playl.sh script header end here
-
-  
-echo 'dialog --radiolist "Playlist" 0 0 0 \' >>playl.sh
+echo 'default=$(<line)' >>playl.sh
+ echo 'dialog --default-item "$default" --title "Mediaplay" \' >>playl.sh
+echo '--menu "Playlist" 0 0 0 \' >>playl.sh
   #f1 "Directory One" off \
   >base
   ast="'"
@@ -66,7 +66,7 @@ cat all.list | while read line
         basename $ast"$line"$ast >base
         basefi=$(<base)
         
-        echo '  '$cnter' "'$basefi'" on\' >>playl.sh
+        echo '  '$cnter' "'$basefi'" \' >>playl.sh
   
   echo "$cnter">cnt 
    done
@@ -74,7 +74,7 @@ cat all.list | while read line
    #playl.sh footer
    
    
-echo '  enjoy "This the End of Playlist" on  2> $tempfile' >>playl.sh
+echo '  enjoy "This the End of Playlist"  2> $tempfile' >>playl.sh
 echo "" >>playl.sh
 echo 'retval=$?'>>playl.sh
 echo 'if [ -e "$tempfile" ]; then' >>playl.sh
@@ -96,7 +96,7 @@ echo 'termux-media-player play "$track"' >>playl.sh
 echo 'id1=$(<id)' >>playl.sh
 #echo 'termux-notification --action "mediaplay 'serve' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$choice" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id "$id1" --on-delete "rm -rf  tmp"  ' >>playl.sh
 #echo 'mediaplay serve'>>playl.sh
-echo 'bash playl.sh'>>playl.sh
+echo 'showplay || bash playl.sh'>>playl.sh
 
 #end of playl.sh script
 echo "Playlist Created!"
@@ -274,10 +274,21 @@ esac
  termux-notification-remove $$
  
  ;;
- *)
- echo "Im just A Media Player"
- echo  "mediaplay start to begin"
- echo  "or bash tor.sh start"
+ *) 
+ clear
+ figlet " " CODEX
+ echo ""
+ echo "_________________"
+ echo "Script info"
+ echo "_________________"
+ echo "1. Mediaplay/tos.sh   - play your audio"
+ echo "2. showplay/playl.sh  - Display Playlist"
+ echo ""
+ echo  'Type "mediaplay start" to begin'
+ echo  '                 or "bash tos.sh" start'
+ echo  'Type "showplay" or "bash playl.sh" for playlist'
+ echo ""
+ 
  ;;
  esac
 
