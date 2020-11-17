@@ -48,10 +48,16 @@ figlet " "SEM
 echo '#!/data/data/com.termux/files/usr/bin/bash' >playl.sh
 echo '#Auto generated script for playlist control of mediaplay--coded by semsabiduria' >>playl.sh
 echo 'cd $HOME'>>playl.sh
+echo 'pasme="$1"' >>playl.sh
+echo 'case $pasme in' >>playl.sh
+echo 'pass) echo "wc" ;;' >>playl.sh
+echo '*)
 echo 'if [ -e $PREFIX/tmp/test.run ]; then '>>playl.sh
 echo 'termux-toast "Program running"'>>playl.sh
 echo 'exit' >>playl.sh
 echo 'fi' >>playl.sh
+echo ';;' >>playl.sh
+echo 'esac' >>playl.sh
 echo 'DIALOG=${DIALOG=dialog}'>>playl.sh
 echo 'tempfile=$PREFIX/tmp/test.run' >>playl.sh
 echo 'trap "rm -f $tempfile" 0 1 2 5 15'  >>playl.sh
@@ -100,7 +106,7 @@ echo 'termux-media-player play "$track"' >>playl.sh
 echo 'id1=$(<id)' >>playl.sh
 #echo 'termux-notification --action "mediaplay 'serve' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$choice" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id "$id1" --on-delete "rm -rf  tmp"  ' >>playl.sh
 #echo 'mediaplay serve'>>playl.sh
-echo 'showplay || bash playl.sh'>>playl.sh
+echo 'showplay "pass" || bash playl.sh "pass" '>>playl.sh
 
 #end of playl.sh script
 echo "Playlist Created!"
