@@ -50,8 +50,10 @@ echo '#Auto generated script for playlist control of mediaplay--coded by semsabi
 echo 'cd $HOME'>>playl.sh
 echo 'pasme="$1"' >>playl.sh
 echo 'case $pasme in' >>playl.sh
-echo 'pass) echo "wc" ;;' >>playl.sh
-echo '*)
+echo 'pass)'>>playl.sh
+echo 'echo "" '>>playl.sh
+echo ';;' >>playl.sh
+echo '*)' >>playl.sh
 echo 'if [ -e $PREFIX/tmp/test.run ]; then '>>playl.sh
 echo 'termux-toast "Program running"'>>playl.sh
 echo 'exit' >>playl.sh
