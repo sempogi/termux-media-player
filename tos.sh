@@ -48,8 +48,12 @@ figlet " "SEM
 echo '#!/data/data/com.termux/files/usr/bin/bash' >playl.sh
 echo '#Auto generated script for playlist control of mediaplay--coded by semsabiduria' >>playl.sh
 echo 'cd $HOME'>>playl.sh
+echo 'if [ -e $PREFIX/tmp/test.run ]; then '>>playl.sh
+echo 'termux-toast "Program running"'>>playl.sh
+echo 'exit' >>playl.sh
+echo 'fi' >>playl.sh
 echo 'DIALOG=${DIALOG=dialog}'>>playl.sh
-echo 'tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$' >>playl.sh
+echo 'tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test.run' >>playl.sh
 echo 'trap "rm -f $tempfile" 0 1 2 5 15'  >>playl.sh
 echo "" >>playl.sh
 #playl.sh script header end here
