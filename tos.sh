@@ -67,7 +67,8 @@ echo "" >>playl.sh
 #playl.sh script header end here
 echo 'default=$(<line)' >>playl.sh
  echo 'dialog --default-item "$default" --title "Mediaplay" \' >>playl.sh
-echo '--menu "Playlist" 0 0 0 \' >>playl.sh
+echo '--menu "Playlist \n Use Arrow Key to Navigate \n Enter or Spacebar to Play." 0 0 0 \' >>playl.sh
+echo '  enjoy "RANDOM Start" \'>>playl.sh
   #f1 "Directory One" off \
   >base
   ast="'"
@@ -86,7 +87,7 @@ cat all.list | while read line
    #playl.sh footer
    
    
-echo '  enjoy "This the End of Playlist"  2> $tempfile' >>playl.sh
+echo '  enjoy "End Of Playlist: RANDOM PLAY"  2> $tempfile' >>playl.sh
 echo "" >>playl.sh
 echo 'retval=$?'>>playl.sh
 echo 'if [ -e "$tempfile" ]; then' >>playl.sh
@@ -95,6 +96,20 @@ echo 'else' >> playl.sh
 echo 'exit' >>playl.sh
 echo 'fi' >>playl.sh
 echo 'echo "index: $choice"' >>playl.sh
+
+
+echo 'case "$choice" in' >>playl.sh
+echo 'enjoy)' >>playl.sh
+echo 'cnt1=$(<cnt)'>>playl.sh
+echo 'choice=$(shuf -i 1-"$cnt1" -n 1)'>>playl.sh
+echo ' echo "shuffle" >mode ' >>playl.sh
+echo ';;' >>playl.sh
+echo '*)' >>playl.sh
+echo ' echo "continuous" >mode ' >>playl.sh
+echo ';;' >>playl.sh
+echo 'esac' >>playl.sh
+
+
 echo 'case $retval in'>>playl.sh
 echo '0)echo " Hello" ;;' >>playl.sh
 echo '*)exit;;' >>playl.sh
@@ -161,11 +176,13 @@ fdir="tmp"
  do
  figlet " "Sem
  echo "Music Daemon Running.........listening"
+
+ echo "Playmode : " $(<mode)
 echo "$line of $cnt"
 echo ""
 echo "$yy"
  
-# sleep 1
+sleep 10
  
  
  
@@ -182,7 +199,15 @@ case "$yy" in
 No*)
 #echo "Not Playing"
 #termux-media-player play "$track"
+playmode=$(<mode)
+case "$playmode" in
+shuffle)
+line=$(shuf -i 1-"$cnt" -n 1)
+;;
+*)
 ((line++))
+;;
+esac
 
 
 prep=`grep -ne ^ all.list | grep -e ^$line:`
@@ -233,7 +258,7 @@ mkdir -p tmp
 fdir="tmp"
  while [[ -d $fdir ]]
  do
- sleep 5
+ sleep 10
  
  
  
