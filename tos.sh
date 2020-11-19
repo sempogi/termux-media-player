@@ -190,7 +190,7 @@ sleep 10
  
  line=$(<line)
  pinfo=$(termux-media-player info)
- termux-notification --action "termux-toast 'Sem Is My Name' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$line of $cnt" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+ termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "Playmode: $(<mode)  $line of $cnt" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
  
  echo $(termux-media-player info)>stat
  yy=$(<stat)

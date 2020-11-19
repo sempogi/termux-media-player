@@ -46,8 +46,10 @@ echo "Working directory not found..try running again"
 exit
 fi
 cp tos.sh $PREFIX/bin/mediaplay
+cp toogleplay.sh $PREFIX/bin/toogleplay
 if [ -e $PREFIX/bin/mediaplay ]; then
 chmod +x $PREFIX/bin/mediaplay
+chmod +x $PREFIX/bin/toogleplay
 echo "Media Player Installed Successfully"
 fi
 if [ -d $HOME/.shortcuts ]; then
