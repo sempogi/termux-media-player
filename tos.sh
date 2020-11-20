@@ -30,7 +30,7 @@ if [ -e first ]; then
 DIALOG=${DIALOG=dialog}
 
 $DIALOG --title " Media Scanner" --clear \
-        --yesno "Would You like to scan ?" 10 30
+        --yesno "Search Audio File and Create Playlist?" 10 30
 
 case $? in
   0)
@@ -38,9 +38,16 @@ case $? in
 figlet " "SEM
         echo "Please wait........................ok"
         echo "Searching media....................ok"
-        find -L ~/storage/shared/ -type f -ipath '*.mp3' >all.list
-        find -L ~/storage/shared/youtube/ -type f -ipath '*.mp4' >>all.list
-        find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+        #external sdcard test /storage/0ECE-1F1A
+        find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
+        find -L  /storage/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
+        find -L  /storage/ -type f -ipath '*.mp3'  >>all.list #this my external sdcard
+        
+        #this is internal sdcard
+      find -L ~/storage/shared/ -type f -ipath '*.mp3' >>all.list
+      find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
+       find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+      
         echo 1>line
         
                 echo "Creating Playlist.................wait"
@@ -66,7 +73,7 @@ echo 'trap "rm -f $tempfile" 0 1 2 5 15'  >>playl.sh
 echo "" >>playl.sh
 #playl.sh script header end here
 echo 'default=$(<line)' >>playl.sh
- echo 'dialog --default-item "$default" --title "Mediaplay" \' >>playl.sh
+ echo 'dialog --default-item "$default" --title "Mediaplay Loaded with $(<cnt) Audio File" \' >>playl.sh
 echo '--menu "Playlist \n Use Arrow Key to Navigate \n Enter or Spacebar to Play." 0 0 0 \' >>playl.sh
 echo '  enjoy "RANDOM Start" \'>>playl.sh
   #f1 "Directory One" off \
