@@ -44,7 +44,7 @@ case $? in
         "4" "Expert Mode" off 2>location
 
   clear
-figlet " "SEM
+        figlet " "SEM
         echo "Please wait........................ok"
         echo "Searching media....................wait"
         #external sdcard test /storage/0ECE-1F1A
@@ -75,10 +75,15 @@ figlet " "SEM
         $DIALOG --title "Expert Mode" --clear \
         --inputbox "Enter Your Search String \n example: \n *.mp3 -mp3 wild card \n *.mp4 -mp4 wildcardsearch \n *eraser* - search for eraser. \n *madonna*.mp3 \n General Format: *stringtosearch*.mp3" 0 0 "$(<strsear)" 2>strsear
 
-
+         clear
+         figlet " " Sem
+         echo ""
+         echo "-----------"
          kwery=$(<strsear)
         
-       echo "Searching media.................... wait" 
+        echo "Searching $kwery.......... wait"
+        echo "-----------"
+        echo ""
         find -L  /storage/ -type f -ipath "$kwery" >all.list #this my external sdcard
         find -L  ~/storage/shared/ -type f -ipath "$kwery"  >>all.list #this my internal sdcar
    
