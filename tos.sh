@@ -35,21 +35,57 @@ $DIALOG --title " Media Scanner" --clear \
 case $? in
   0)
   clear
+  $DIALOG --backtitle "Media Selector" \
+	--title "Server Config" \
+        --radiolist "Search in"  0 0 0 \
+        "1" "Internal Storage Only" on \
+        "2" "External Storage Only" off \
+        "3" "Both Internal and External" off \
+        "4" "Expert Mode" off 2>location
+
+  clear
 figlet " "SEM
         echo "Please wait........................ok"
-        echo "Searching media....................ok"
+        echo "Searching media....................wait"
         #external sdcard test /storage/0ECE-1F1A
+        
+        loc=$(<location)
+        case "$loc" in
+        2)
         find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
         find -L  /storage/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
         find -L  /storage/ -type f -ipath '*.mp3'  >>all.list #this my external sdcard
-        
+        ;;
         #this is internal sdcard
-      find -L ~/storage/shared/ -type f -ipath '*.mp3' >>all.list
+        1)
+      find -L ~/storage/shared/ -type f -ipath '*.mp3' >all.list
       find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
        find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
-      
-        echo 1>line
+      ;;
+      3)
+        find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
+        find -L  /storage/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
+        find -L  /storage/ -type f -ipath '*.mp3'  >>all.list #th
+        find -L ~/storage/shared/ -type f -ipath '*.mp3' >>all.list
+        find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
+        find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+      ;;
+      4)
         
+        $DIALOG --title "Expert Mode" --clear \
+        --inputbox "Enter Your Search String \n example: \n *.mp3 -mp3 wild card \n *.mp4 -mp4 wildcardsearch \n *eraser* - search for eraser. \n *madonna*.mp3 \n General Format: *stringtosearch*.mp3" 0 0 "$(<strsear)" 2>strsear
+
+
+         kwery=$(<strsear)
+        
+       echo "Searching media.................... wait" 
+        find -L  /storage/ -type f -ipath "$kwery" >all.list #this my external sdcard
+        find -L  ~/storage/shared/ -type f -ipath "$kwery"  >>all.list #this my internal sdcar
+   
+        ;;
+      esac
+        echo 1>line
+                echo "Searching media.................... Done"
                 echo "Creating Playlist.................wait"
  #----------
 echo '#!/data/data/com.termux/files/usr/bin/bash' >playl.sh
@@ -265,7 +301,7 @@ mkdir -p tmp
 fdir="tmp"
  while [[ -d $fdir ]]
  do
- sleep 10
+ sleep $2
  
  
  
