@@ -12,3 +12,4 @@ kernel:fenix autumn leaf
    Notifications controls
 
  
+![alt text](https://github.com/sempogi/termux-media-player/blob/main/Screenshot_2020-11-15-16-18-34-414_com.termux.jpg)
