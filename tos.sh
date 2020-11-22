@@ -41,7 +41,9 @@ case $? in
         "1" "Internal Storage Only" on \
         "2" "External Storage Only" off \
         "3" "Both Internal and External" off \
-        "4" "Expert Mode" off 2>location
+        "4" "Expert Mode -Search String" off \
+        "5" "Install Mp3,M4a Downloader" off \
+        "6" "Exit App" off 2>location
 
   clear
         figlet " "SEM
@@ -87,6 +89,18 @@ case $? in
         find -L  /storage/ -type f -ipath "$kwery" >all.list #this my external sdcard
         find -L  ~/storage/shared/ -type f -ipath "$kwery"  >>all.list #this my internal sdcar
    
+        ;;
+        5)
+        curl https://raw.githubusercontent.com/sempogi/termuxurl/main/installytandspoti.sh -o ytinstall.sh
+        chmod +x ytinstall.sh
+        dos2unix ytinstall.sh
+        bash ytinstall.sh
+        
+        bash ~/bin/termux-url-opener "https://youtu.be/fzXOxKSJHxM"
+        exit
+        ;;
+        6)
+        exit
         ;;
       esac
         echo 1>line
@@ -229,8 +243,12 @@ fdir="tmp"
 echo "$line of $cnt"
 echo ""
 echo "$yy"
- 
-sleep 10
+ast1='"'
+tick=$track
+
+#ffmpeg -i mp31.mp3 -an -vcodec  copy -y test2.png > output.txt 2>&1
+ ffmpeg -i """$tick""" -an -vcodec copy -y test.png >output.txt 2>&1
+#sleep $2
  
  
  
@@ -262,6 +280,7 @@ prep=`grep -ne ^ all.list | grep -e ^$line:`
 echo "${prep#$line:}">track
 track=$(<track)
 echo "$line">line
+
 termux-media-player play "$track"
 
 
@@ -314,7 +333,7 @@ fdir="tmp"
  
  line=$(<line)
  pinfo=$(termux-media-player info)
- termux-notification --action "termux-toast 'Sem Is My Name' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "$line of $cnt" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+ termux-notification --action "termux-toast 'SEM Is MyName' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -c "🎧$pinfo" -t "$line of $cnt" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
  
  echo $(termux-media-player info)>stat
  yy=$(<stat)
