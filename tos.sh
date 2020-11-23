@@ -2,6 +2,7 @@
 #termux-media-player wrapper
 #pure bash code.
 #with playlist function!!!
+
 #find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
 if [ -e "$PREFIX/tmp/media.play" ]; then
 termux-toast "Only One Instance is Allowed" || echo "Only 1 instance of program to run is allow"
@@ -35,22 +36,23 @@ $DIALOG --title " Media Scanner" --clear \
 case $? in
   0)
   clear
-  $DIALOG --backtitle "Media Selector" \
-	--title "Server Config" \
+  $DIALOG --backtitle "Controls" \
+	--title "Media Config" \
         --radiolist "Search in"  0 0 0 \
         "1" "Internal Storage Only" on \
         "2" "External Storage Only" off \
         "3" "Both Internal and External" off \
         "4" "Expert Mode -Search String" off \
         "5" "Install Mp3,M4a Downloader" off \
-        "6" "Exit App" off 2>location
+        "6" "Update This Script from repo.r" off \
+        "7" "Exit App" off 2>location
 
   clear
         figlet " "SEM
         echo "Please wait........................ok"
         echo "Searching media....................wait"
         #external sdcard test /storage/0ECE-1F1A
-        
+        #its working#
         loc=$(<location)
         case "$loc" in
         2)
@@ -100,6 +102,13 @@ case $? in
         exit
         ;;
         6)
+        curl https://raw.githubusercontent.com/sempogi/termux-media-player/main/install.sh -o updateme.sh
+        chmod +x updateme.sh
+        dos2unix updateme.sh
+        bash updateme.sh
+        exit
+        ;;
+         7)
         exit
         ;;
       esac
