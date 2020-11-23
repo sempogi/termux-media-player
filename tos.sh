@@ -250,12 +250,26 @@ tick=$track
  ffmpeg -i """$tick""" -an -vcodec copy -y test.png >output.txt 2>&1
 #sleep $2
  
- 
- 
-
- 
+ ffprobe -show_format -print_format json """$tick""" >tag.list 2>tagl
+ echo "Title : " 
+ jq '.format .tags .title' tag.list
+ echo "Artist:"
+jq '.format .tags .artist' tag.list
+ echo "Location:"
+ jq '.format .filename' tag.list
+ echo "File Format:"
+ jq '.format .format_long_name' tag.list
+ echo "Bitrate:"
+ jq '.format .bit_rate' tag.list
  line=$(<line)
+ #pinfo=$(termux-media-player info)
+ pinfo=$(jq '.format .tags .title' tag.list)
+ case "$pinfo" in
+ null)
  pinfo=$(termux-media-player info)
+ ;;
+ esac
+ 
  termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -t "🎧$pinfo" --content "Playmode: $(<mode)  $line of $cnt" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
  
  echo $(termux-media-player info)>stat
