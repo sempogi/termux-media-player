@@ -44,8 +44,9 @@ case $? in
         "3" "Both Internal and External" off \
         "4" "Expert Mode -Search String" off \
         "5" "Install Mp3,M4a Downloader" off \
-        "6" "Update This Script from repo.r" off \
-        "7" "Exit App" off 2>location
+        "6" "Update This Script from repo" off \
+        "7" "Edit Playlist Script" off \
+        "8" "Exit App" off 2>location
 
   clear
         figlet " "SEM
@@ -109,12 +110,17 @@ case $? in
         exit
         ;;
          7)
+         dialog --editbox playl.sh 0 0 2>$PREFIX/bin/showplay
+         showplay        
+        exit
+        ;;
+        8)
         exit
         ;;
       esac
         echo 1>line
                 echo "Searching media.................... Done"
-                echo "Creating Playlist.................wait"
+                echo "Creating Playlist script..........wait"
  #----------
 echo '#!/data/data/com.termux/files/usr/bin/bash' >playl.sh
 echo '#Auto generated script for playlist control of mediaplay--coded by semsabiduria' >>playl.sh
@@ -257,12 +263,16 @@ tick=$track
 
 #ffmpeg -i mp31.mp3 -an -vcodec  copy -y test2.png > output.txt 2>&1
  ffmpeg -i """$tick""" -an -vcodec copy -y test.png >output.txt 2>&1
-#sleep $2
+if [ "$2"]; then
+sleep $2
+else
+sleep 0.75
+fi
  
  ffprobe -show_format -print_format json """$tick""" >tag.list 2>tagl
  echo "Title : "$(jq '.format .tags .title' tag.list)>tagdis
  echo "Artist:"$(jq '.format .tags .artist' tag.list)>>tagdis
- 
+ echo "Artist:"$(jq '.format .tags .artist' tag.list)>artista
  echo "Location:"$(jq '.format .filename' tag.list)>>tagdis
  
  echo "File Format:"$(jq '.format .format_long_name' tag.list)>>tagdis
@@ -280,7 +290,50 @@ tick=$track
  ;;
  esac
  termux-notification --title "Media Info" --content "$tagdis" --id 12 --image-path "$HOME/test.png" --icon "$HOME/test.png"
- termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Playmode: $(<mode)  $line of $cnt" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+ playmode=$(<mode)
+case "$playmode" in
+shuffle)
+todis=$(<notifchange)
+case "$todis" in
+artist)
+termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "$(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+echo "next">notifchange
+;;
+*)
+termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Playmode: $(<mode)  $line of $cnt"  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+
+echo "artist">notifchange
+;;
+esac
+
+
+
+;;
+*)
+
+todis=$(<notifchange)
+case "$todis" in
+artist)
+termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "$(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+echo "next">notifchange
+;;
+*)
+tick2=$(<nexttrack)
+ffprobe -show_format -print_format json """$tick2""" >tag1.list 2>tagl2
+echo $(jq '.format .tags .title' tag1.list)>tagdis2
+
+termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Next: $(<tagdis2) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+echo "artist">notifchange
+;;
+esac
+
+
+
+
+;;
+
+esac
+ 
  
  echo $(termux-media-player info)>stat
  yy=$(<stat)
@@ -307,7 +360,10 @@ echo "$line">line
 
 termux-media-player play "$track"
 
-
+nextline=$((line+1))
+echo $nextline
+nextprep=`grep -ne ^ all.list | grep -e ^$nextline:`
+echo "${nextprep#$nextline:}">nexttrack
 
 
 ;;
@@ -333,13 +389,13 @@ esac
  done
  termux-media-player stop
  termux-notification-remove $$
- 
+ termux-notification-remove 12
 #push server https://github.com/sempogi/termux-media-player.git
  ;;
  serve)
  
  cnt=$(<cnt)
- echo "Music Daemon Running.........listening"
+echo "Music Daemon Running.........listening"
 echo "Open New Temux Session"
 echo "Type cd and the bash playl.sh"  
 echo "$cnt songs available"
@@ -349,7 +405,13 @@ mkdir -p tmp
 fdir="tmp"
  while [[ -d $fdir ]]
  do
+ if [ "$2" ]; then
  sleep $2
+ else
+ sleep 0.75
+ echo "Default speed"
+ fi
+
  
  
  
@@ -400,7 +462,7 @@ esac
  done
  termux-media-player stop
  termux-notification-remove $$
- 
+ termux-notification-remove 12
  ;;
  *) 
  clear
