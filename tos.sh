@@ -2,8 +2,20 @@
 #termux-media-player wrapper
 #pure bash code.
 #with playlist function!!!
-
+#switch to micro text editor.Nov.24 2020
 #find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
+
+#lets define color config for easy use
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+LGREEN='\033[1;32m'
+CYAN='\033[0;36m'
+BLUE='\033[0;34m'
+LGRAY='\033[0;37m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+
+
 if [ -e "$PREFIX/tmp/media.play" ]; then
 termux-toast "Only One Instance is Allowed" || echo "Only 1 instance of program to run is allow"
 exit
@@ -63,9 +75,9 @@ case $? in
         ;;
         #this is internal sdcard
         1)
-      find -L ~/storage/shared/ -type f -ipath '*.mp3' >all.list
-      find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
-       find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+        find -L ~/storage/shared/ -type f -ipath '*.mp3' >all.list
+        find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
+        find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
       ;;
       3)
         find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
@@ -120,7 +132,7 @@ case $? in
       esac
         echo 1>line
                 echo "Searching media.................... Done"
-                echo "Creating Playlist script..........wait"
+                printf "$GREEN Creating Playlist script..........wait $NC"
  #----------
 echo '#!/data/data/com.termux/files/usr/bin/bash' >playl.sh
 echo '#Auto generated script for playlist control of mediaplay--coded by semsabiduria' >>playl.sh
@@ -143,7 +155,7 @@ echo 'trap "rm -f $tempfile" 0 1 2 5 15'  >>playl.sh
 echo "" >>playl.sh
 #playl.sh script header end here
 echo 'default=$(<line)' >>playl.sh
- echo 'dialog --default-item "$default" --title "Mediaplay Loaded with $(<cnt) Audio File" \' >>playl.sh
+echo 'dialog --default-item "$default" --title "Mediaplay Loaded with $(<cnt) Audio File" \' >>playl.sh
 echo '--menu "Playlist \n Use Arrow Key to Navigate \n Enter or Spacebar to Play." 0 0 0 \' >>playl.sh
 echo '  enjoy "RANDOM Start" \'>>playl.sh
   #f1 "Directory One" off \
@@ -191,8 +203,8 @@ echo 'case $retval in'>>playl.sh
 echo '0)echo " Hello" ;;' >>playl.sh
 echo '*)exit;;' >>playl.sh
 echo 'esac'>>playl.sh
- echo ' prep=`grep -ne ^ all.list | grep -e ^$choice:`' >>playl.sh
- echo 'echo "${prep#$choice:}">track' >>playl.sh
+echo ' prep=`grep -ne ^ all.list | grep -e ^$choice:`' >>playl.sh
+echo 'echo "${prep#$choice:}">track' >>playl.sh
 echo 'track=$(<track)' >>playl.sh
 #echo "$choice">line
 echo 'echo "$choice">line' >>playl.sh
@@ -238,7 +250,7 @@ echo "Type cd and the bash playl.sh"
 cnt=$(<cnt)
 #line=$(shuf -i 1-"$cnt" -n 1)
 line=$(<line)
-echo "$line"
+#echo "$line"
 #line=1
 prep=`grep -ne ^ all.list | grep -e ^$line:`
 echo "${prep#$line:}">track
@@ -252,12 +264,20 @@ fdir="tmp"
  while [[ -d $fdir ]]
  do
  figlet " "Sem
- echo "Music Daemon Running.........listening"
+printf "$NC -------------------\n"
+ 
+printf "$NC Music Daemon Running........$LGREEN listening $NC \n"
+printf "$NC -------------------\n"
+printf " Playmode : $YELLOW $(<mode)$NC \n"
+printf " $line of $cnt $NC \n"
+printf "$RED Encoder:$LGRAY $(<artista2)\n"
+printf "$RED Artist :$LGRAY $(<artista)\n"
+printf "$RED Title  :$LGRAY $(<artista1)\n"
+printf "$NC -------------------\n"
+printf "$GREEN Loaded track:$LGRAY $track $NC\n"
 
- echo "Playmode : " $(<mode)
-echo "$line of $cnt"
 echo ""
-echo "$yy"
+
 ast1='"'
 tick=$track
 
@@ -272,7 +292,10 @@ fi
  ffprobe -show_format -print_format json """$tick""" >tag.list 2>tagl
  echo "Title : "$(jq '.format .tags .title' tag.list)>tagdis
  echo "Artist:"$(jq '.format .tags .artist' tag.list)>>tagdis
- echo "Artist:"$(jq '.format .tags .artist' tag.list)>artista
+ echo $(jq '.format .tags .artist' tag.list)>artista
+ echo $(jq '.format .tags .title' tag.list)>artista1
+ echo $(jq '.format .tags .encoder' tag.list)>artista2
+ 
  echo "Location:"$(jq '.format .filename' tag.list)>>tagdis
  
  echo "File Format:"$(jq '.format .format_long_name' tag.list)>>tagdis
@@ -296,7 +319,7 @@ shuffle)
 todis=$(<notifchange)
 case "$todis" in
 artist)
-termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "$(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Artist: $(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
 echo "next">notifchange
 ;;
 *)
@@ -314,7 +337,7 @@ esac
 todis=$(<notifchange)
 case "$todis" in
 artist)
-termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "$(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Artist: $(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
 echo "next">notifchange
 ;;
 *)
@@ -358,10 +381,10 @@ echo "${prep#$line:}">track
 track=$(<track)
 echo "$line">line
 
-termux-media-player play "$track"
+termux-media-player play "$track" >>playedtrack
 
 nextline=$((line+1))
-echo $nextline
+#echo $nextline
 nextprep=`grep -ne ^ all.list | grep -e ^$nextline:`
 echo "${nextprep#$nextline:}">nexttrack
 
@@ -393,76 +416,11 @@ esac
 #push server https://github.com/sempogi/termux-media-player.git
  ;;
  serve)
+ clear
+ figlet " " CODEX
+ echo "Coming Soon..."
+ exit
  
- cnt=$(<cnt)
-echo "Music Daemon Running.........listening"
-echo "Open New Temux Session"
-echo "Type cd and the bash playl.sh"  
-echo "$cnt songs available"
-
-#bash playl.sh
-mkdir -p tmp
-fdir="tmp"
- while [[ -d $fdir ]]
- do
- if [ "$2" ]; then
- sleep $2
- else
- sleep 0.75
- echo "Default speed"
- fi
-
- 
- 
- 
-
- 
- line=$(<line)
- pinfo=$(termux-media-player info)
- termux-notification --action "termux-toast 'SEM Is MyName' " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop"  -c "🎧$pinfo" -t "$line of $cnt" --sound --vibrate 800 --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
- 
- echo $(termux-media-player info)>stat
- yy=$(<stat)
-case "$yy" in
-No*)
-#echo "Not Playing"
-#termux-media-player play "$track"
-((line++))
-
-
-prep=`grep -ne ^ all.list | grep -e ^$line:`
-echo "${prep#$line:}">track
-track=$(<track)
-echo "$line">line
-termux-media-player play "$track"
-
-
-
-
-;;
-
-*ause*)
-       prev=$(<prev)
-       case "$prev" in
-               yes)
-                    echo no>prev
-                    ((line--))
-                     prep=`grep -ne ^ all.list | grep -e ^$line:`
-                     echo "${prep#$line:}">track
-                     track=$(<track)
-                     
-                     termux-media-player stop
-                     ((line--))
-                     echo "$line">line
-                  ;;
-          esac
-;;
-esac
- 
- done
- termux-media-player stop
- termux-notification-remove $$
- termux-notification-remove 12
  ;;
  *) 
  clear
