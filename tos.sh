@@ -312,6 +312,15 @@ fi
  pinfo=$(termux-media-player info)
  ;;
  esac
+ 
+ track=$(<track)
+echo "$line">line
+nextline=$((line+1))
+#echo $nextline
+nextprep=`grep -ne ^ all.list | grep -e ^$nextline:`
+echo "${nextprep#$nextline:}">nexttrack
+ 
+ 
  termux-notification --title "Media Info" --content "$tagdis" --id 12 --image-path "$HOME/test.png" --icon "$HOME/test.png"
  playmode=$(<mode)
 case "$playmode" in
@@ -345,7 +354,7 @@ tick2=$(<nexttrack)
 ffprobe -show_format -print_format json """$tick2""" >tag1.list 2>tagl2
 echo $(jq '.format .tags .title' tag1.list)>tagdis2
 
-termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Next: $(<tagdis2) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Next Song: $(<tagdis2) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
 echo "artist">notifchange
 ;;
 esac
