@@ -26,7 +26,7 @@ trap "rm -f $iamrunning" 0 1 2 5 15
 
 cd
 commu=$1
-
+termux-volume music $(<defaultvol)
 case $commu in 
 start)
 cnter=0
@@ -42,8 +42,8 @@ if [ -e first ]; then
 
 DIALOG=${DIALOG=dialog}
 
-$DIALOG --title " Media Scanner" --clear \
-        --yesno "Search Audio File and Create Playlist?" 10 30
+$DIALOG --title " Media Scanner/Script Config" --clear \
+        --yesno "Enter Config?" 10 30
 
 case $? in
   0)
@@ -58,7 +58,8 @@ case $? in
         "5" "Install Mp3,M4a Downloader" off \
         "6" "Update This Script from repo" off \
         "7" "Edit Playlist Script" off \
-        "8" "Exit App" off 2>location
+        "8" "Set Default Volume" off \
+        "9" "Exit App" off 2>location
 
   clear
         figlet " "SEM
@@ -127,6 +128,18 @@ case $? in
         exit
         ;;
         8)
+       termux-volume >volume
+		 #get music volume data
+			mvolume=$(jq '.[] | select(.stream=="music")' volume)
+			echo "$mvolume">volume
+			jq '.volume' volume>curv
+			jq '.max_volume' volume>maxv
+
+        dialog --rangebox "Player Default Volume" 0 0 1 $(<maxv) $(<curv) 2>defaultvol
+        termux-volume music $(<defaultvol)
+        exit
+        ;;
+        9)
         exit
         ;;
       esac
@@ -470,7 +483,8 @@ esac
  printf "	Script Name	Description \n\n"
  printf "1. $GREEN Mediaplay/tos.sh $NC  - play your audio \n"
  printf "2. $GREEN showplay/playl.sh $NC - Display Playlist\n"
- echo ""
+ printf "3. $GREEN volumectrl/volumectrl.sh $NC - Music Vol\n"
+echo ""
  
  printf "Type$RED mediaplay start $NC to begin $NC \n\t or$RED bash tos.sh start$NC\n"
  printf "Type$RED showplay $NC or$RED bash playl.sh $NC \n\t for playlist\n"

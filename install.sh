@@ -47,9 +47,11 @@ exit
 fi
 cp tos.sh $PREFIX/bin/mediaplay
 cp toogleplay.sh $PREFIX/bin/toogleplay
+cp volumectrl.sh $PRRFIX/bin/volumectrl
 if [ -e $PREFIX/bin/mediaplay ]; then
 chmod +x $PREFIX/bin/mediaplay
 chmod +x $PREFIX/bin/toogleplay
+chmod +x $PREFIX/bin/volumectrl
 echo "Media Player Installed Successfully"
 fi
 if [ -d $HOME/.shortcuts ]; then
@@ -62,10 +64,12 @@ echo "Trying to creat Shortcuts"
 fi
 echo "mediaplay start"> $HOME/.shortcuts/Mediaplayer.sh
 echo "showplay"> $HOME/.shortcuts/Playlist.sh
+echo "volumectrl"> $HOME/.shortcuts/Volume.sh
 
 if  [ -e  $HOME/.shortcuts/Mediaplayer.sh ]; then
 chmod +x  $HOME/.shortcuts/Mediaplayer.sh
 chmod +x  $HOME/.shortcuts/Playlist.sh
+chmod +x  $HOME/.shortcuts/Volume.sh
 echo "Shortcut Installed"
 fi
 figlet " " SEM
