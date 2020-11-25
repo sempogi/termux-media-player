@@ -47,7 +47,7 @@ exit
 fi
 cp tos.sh $PREFIX/bin/mediaplay
 cp toogleplay.sh $PREFIX/bin/toogleplay
-cp volumectrl.sh $PRRFIX/bin/volumectrl
+cp volumectrl.sh $PREFIX/bin/volumectrl
 if [ -e $PREFIX/bin/mediaplay ]; then
 chmod +x $PREFIX/bin/mediaplay
 chmod +x $PREFIX/bin/toogleplay
