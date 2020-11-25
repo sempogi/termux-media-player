@@ -4,7 +4,7 @@
 #with playlist function!!!
 #switch to micro text editor.Nov.24 2020
 #find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
-
+#quickedit+
 #lets define color config for easy use
 RED='\033[0;31m'
 NC='\033[0m' # No Color
@@ -263,17 +263,46 @@ mkdir -p tmp
 fdir="tmp"
  while [[ -d $fdir ]]
  do
- figlet " "Sem
-printf "$NC -------------------\n"
+#volume test
+termux-volume >volume
+ #get music volume data
+mvolume=$(jq '.[] | select(.stream=="music")' volume)
+echo "$mvolume">volume
+jq '.volume' volume>curv
+jq '.max_volume' volume>maxv
+
+
+#end of volume test
+ 
+ figlet " "Gill
+#printf "$NC -------------------\n"
  
 printf "$NC Music Daemon Running........$LGREEN listening $NC \n"
 printf "$NC -------------------\n"
 printf " Playmode : $YELLOW $(<mode)$NC \n"
 printf " $line of $cnt $NC \n"
-printf "$RED Encoder:$LGRAY $(<artista2)\n"
+#printf "$RED Encoder:$LGRAY $(<artista2)\n"
 printf "$RED Artist :$LGRAY $(<artista)\n"
 printf "$RED Title  :$LGRAY $(<artista1)\n"
 printf "$NC -------------------\n"
+maxv="$(<maxv)"
+curv="$(<curv)"
+printf "$GREEN Music Vol.:"
+counter=1
+until [ $counter -gt $maxv ]
+do
+if [ $counter -lt $curv ]; then
+printf "$RED"
+printf "*"
+else
+printf "$NC"
+printf "*"
+fi
+
+((counter++))
+done
+
+printf "\n"
 printf "$GREEN Loaded track:$LGRAY $track $NC\n"
 
 echo ""
@@ -321,7 +350,7 @@ nextprep=`grep -ne ^ all.list | grep -e ^$nextline:`
 echo "${nextprep#$nextline:}">nexttrack
  
  
- termux-notification --title "Media Info" --content "$tagdis" --id 12 --image-path "$HOME/test.png" --icon "$HOME/test.png"
+ termux-notification --title "Media Info.: Music Vol.:$(<curv)" --content "$tagdis" --id 12 --image-path "$HOME/test.png" --icon "$HOME/test.png"
  playmode=$(<mode)
 case "$playmode" in
 shuffle)
@@ -436,16 +465,18 @@ esac
  figlet " " CODEX
  echo ""
  echo "_________________"
- echo "Script info"
+ printf "$YELLOW Script info $NC \n"
  echo "_________________"
- echo "1. Mediaplay/tos.sh   - play your audio"
- echo "2. showplay/playl.sh  - Display Playlist"
- echo ""
- echo  'Type "mediaplay start" to begin'
- echo  '                 or "bash tos.sh" start'
- echo  'Type "showplay" or "bash playl.sh" for playlist'
+ printf "	Script Name	Description \n\n"
+ printf "1. $GREEN Mediaplay/tos.sh $NC  - play your audio \n"
+ printf "2. $GREEN showplay/playl.sh $NC - Display Playlist\n"
  echo ""
  
+ printf "Type$RED mediaplay start $NC to begin $NC \n\t or$RED bash tos.sh start$NC\n"
+ printf "Type$RED showplay $NC or$RED bash playl.sh $NC \n\t for playlist\n"
+ 
+ echo ""
+ 	
  ;;
  esac
 
