@@ -9,6 +9,6 @@
 
         dialog --rangebox "Termux Volume Controller" 0 0 1 $(<maxv) $(<curv) 2>defaultvol
         termux-volume music $(<defaultvol)
-        volumectrl | bash volumectrl.sh
+        volumectrl ||  bash volumectrl.sh
         exit
  
