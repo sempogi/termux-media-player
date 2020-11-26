@@ -1,9 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-        termux-volume >volume
+        termux-volume >genvolume
 		 #get music volume data
-			mvolume=$(jq '.[] | select(.stream=="music")' volume)
-			echo "$mvolume">volume
+			mvolume=$(jq '.[] | select(.stream=="music")' genvolume)
+			echo "$mvolume">genvolume
 			jq '.volume' volume>curv
 			jq '.max_volume' volume>maxv
 

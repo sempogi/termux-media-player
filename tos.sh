@@ -305,11 +305,11 @@ counter=1
 until [ $counter -gt $maxv ]
 do
 if [ $counter -lt $curv ]; then
-printf "$RED"
-printf "*"
+printf "$GREEN"
+printf "-"
 else
 printf "$NC"
-printf "*"
+printf "-"
 fi
 
 ((counter++))
