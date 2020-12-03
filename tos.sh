@@ -363,7 +363,7 @@ nextprep=`grep -ne ^ all.list | grep -e ^$nextline:`
 echo "${nextprep#$nextline:}">nexttrack
  
  
- termux-notification --title "Media Info.: Music Vol.:$(<curv)" --content "$tagdis" --id 12 --image-path "$HOME/test.png" --icon "$HOME/test.png"
+ termux-notification --type media --title "Media Info.: Music Vol.:$(<curv)" --content "$tagdis" --id 12 --image-path "$HOME/test.png" --icon "$HOME/test.png"
  playmode=$(<mode)
 case "$playmode" in
 shuffle)
