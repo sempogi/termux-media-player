@@ -363,18 +363,18 @@ nextprep=`grep -ne ^ all.list | grep -e ^$nextline:`
 echo "${nextprep#$nextline:}">nexttrack
  
  
- termux-notification --type media --title "Media Info.: Music Vol.:$(<curv)" --content "$tagdis" --id 12 --image-path "$HOME/test.png" --icon "$HOME/test.png"
+ termux-notification --alert-once --type media --title "Media Info.: Music Vol.:$(<curv)" --content "$tagdis" --id 12 --image-path "$HOME/test.png" --icon "$HOME/test.png"
  playmode=$(<mode)
 case "$playmode" in
 shuffle)
 todis=$(<notifchange)
 case "$todis" in
 artist)
-termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Artist: $(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+termux-notification --alert-once --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Artist: $(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
 echo "next">notifchange
 ;;
 *)
-termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Playmode: $(<mode)  $line of $cnt"  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+termux-notification --alert-once --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Playmode: $(<mode)  $line of $cnt"  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
 
 echo "artist">notifchange
 ;;
@@ -388,7 +388,7 @@ esac
 todis=$(<notifchange)
 case "$todis" in
 artist)
-termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Artist: $(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+termux-notification --alert-once --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Artist: $(<artista) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
 echo "next">notifchange
 ;;
 *)
@@ -396,7 +396,7 @@ tick2=$(<nexttrack)
 ffprobe -show_format -print_format json """$tick2""" >tag1.list 2>tagl2
 echo $(jq '.format .tags .title' tag1.list)>tagdis2
 
-termux-notification --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Next Song: $(<tagdis2) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
+termux-notification --alert-once --action "termux-toast 'Sem Is My Name'; toogleplay " --type media --media-previous "termux-media-player pause; echo yes>prev " --media-play "termux-media-player 'play'" --media-pause "termux-media-player 'pause' " --media-next "termux-media-player stop" --icon "next" -t "🎧$pinfo" --content "Next Song: $(<tagdis2) "  --priority high  --image-path "$HOME/test.png" --id $$ --on-delete "rm -rf  tmp"  
 echo "artist">notifchange
 ;;
 esac
