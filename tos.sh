@@ -301,19 +301,19 @@ printf "$NC -------------------\n"
 maxv="$(<maxv)"
 curv="$(<curv)"
 printf "$GREEN Music Vol.:"
-#counter=1
-#until [ $counter -gt $maxv ]
-#do
-#if [ $counter -lt $curv ]; then
-#printf "$GREEN"
-#printf "-"
-#else
-#printf "$NC"
-#printf "-"
-#fi
+counter=1
+until [ $counter -gt "$maxv" ]
+do
+if [ $counter -lt "$curv" ]; then
+printf "$GREEN"
+printf "-"
+else
+printf "$NC"
+printf "-"
+fi
 
-#((counter++))
-#done
+((counter++))
+done
 
 printf "\n"
 printf "$GREEN Loaded track:$LGRAY $track $NC\n"
