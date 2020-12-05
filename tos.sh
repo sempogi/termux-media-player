@@ -314,6 +314,30 @@ fi
 
 ((counter++))
 done
+#battery sample display
+echo $(termux-battery-status)>battery
+bat1=1
+echo  $(jq ".percentage" battery)>bat
+
+bat=$(<bat)
+printf "Battery:"
+until [ "$bat1" -eq 100 ]
+do
+if [ $bat1 -lt "$bat" ]; then
+printf "$GREEN"
+printf "-"
+elif [ $bat1 -eq "$bat" ]; then
+printf "$LGREEN X"
+else
+printf "$NC"
+printf "-"
+fi
+
+((bat1++))
+done
+#end of battery display
+
+printf "$NC\n"
 
 printf "\n"
 printf "$GREEN Loaded track:$LGRAY $track $NC\n"
