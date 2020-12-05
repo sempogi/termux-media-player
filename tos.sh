@@ -320,7 +320,7 @@ bat1=1
 echo  $(jq ".percentage" battery)>bat
 
 bat=$(<bat)
-printf "Battery:"
+printf "\n Battery:"
 until [ "$bat1" -eq 100 ]
 do
 if [ $bat1 -lt "$bat" ]; then
