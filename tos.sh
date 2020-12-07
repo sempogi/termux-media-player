@@ -327,7 +327,7 @@ if [ $bat1 -lt "$bat" ]; then
 printf "$GREEN"
 printf "-"
 elif [ $bat1 -eq "$bat" ]; then
-printf "$LGREEN X"
+printf "$LGREEN -"
 else
 printf "$NC"
 printf "-"
