@@ -6,8 +6,11 @@
 #Nov. 15 2020
 cd $HOME
 echo "installing dependencies"
+echo "It is mandatory to install Termux-api app"
+echo "Please download it from play store"
+echo "Allow all permission to make everything working"
 echo "please allow termux to access storage"
-sleep 5
+sleep 1
 termux-setup-storage
 apt update && apt upgrade
 #some of this dependences already installed
@@ -20,6 +23,7 @@ pkg install figlet
 pkg install dialog
 pkg install mpv
 pkg install ffmpeg
+pkg install jq
 #optional 
 pkg install nodejs
  #use for downloading videos
