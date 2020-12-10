@@ -173,7 +173,7 @@ echo "" >>playl.sh
 #playl.sh script header end here
 echo 'default=$(<line)' >>playl.sh
 echo 'dialog --default-item "$default" --title "Mediaplay Loaded with $(<cnt) Audio File" \' >>playl.sh
-echo '--menu "Playlist$myplay \n Use Arrow Key to Navigate \n Enter or Spacebar to Play." 0 0 0 \' >>playl.sh
+echo '--menu "Playlist: $myplay \n Use Arrow Key to Navigate \n Enter or Spacebar to Play." 0 0 0 \' >>playl.sh
 echo '  enjoy "Click here for random" \'>>playl.sh
   #f1 "Directory One" off \
   >base
