@@ -73,12 +73,14 @@ case $? in
         find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
         find -L  /storage/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
         find -L  /storage/ -type f -ipath '*.mp3'  >>all.list #this my external sdcard
-        ;;
+        echo "External"> strloc
+         ;;
         #this is internal sdcard
         1)
         find -L ~/storage/shared/ -type f -ipath '*.mp3' >all.list
         find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
         find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+        echo "Internal"> strloc
       ;;
       3)
         find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
@@ -87,6 +89,7 @@ case $? in
         find -L ~/storage/shared/ -type f -ipath '*.mp3' >>all.list
         find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
         find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+      echo "Whole Device"> strloc
       ;;
       4)
         
@@ -98,7 +101,7 @@ case $? in
          echo ""
          echo "-----------"
          kwery=$(<strsear)
-        
+        echo "$kwery"> strloc
         echo "Searching $kwery.......... wait"
         echo "-----------"
         echo ""
@@ -150,6 +153,7 @@ case $? in
 echo '#!/data/data/com.termux/files/usr/bin/bash' >playl.sh
 echo '#Auto generated script for playlist control of mediaplay--coded by semsabiduria' >>playl.sh
 echo 'cd $HOME'>>playl.sh
+echo 'myplay=$(<strloc)' >>playl.sh
 echo 'pasme="$1"' >>playl.sh
 echo 'case $pasme in' >>playl.sh
 echo 'pass)'>>playl.sh
@@ -169,8 +173,8 @@ echo "" >>playl.sh
 #playl.sh script header end here
 echo 'default=$(<line)' >>playl.sh
 echo 'dialog --default-item "$default" --title "Mediaplay Loaded with $(<cnt) Audio File" \' >>playl.sh
-echo '--menu "Playlist \n Use Arrow Key to Navigate \n Enter or Spacebar to Play." 0 0 0 \' >>playl.sh
-echo '  enjoy "RANDOM Start" \'>>playl.sh
+echo '--menu "Playlist$myplay \n Use Arrow Key to Navigate \n Enter or Spacebar to Play." 0 0 0 \' >>playl.sh
+echo '  enjoy "Click here for random" \'>>playl.sh
   #f1 "Directory One" off \
   >base
   ast="'"
