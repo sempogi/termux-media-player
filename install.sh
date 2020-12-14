@@ -4,6 +4,7 @@
 #Code Editor termux nano and QuickEdit+
 #interpreter termux android
 #Nov. 15 2020
+#directly edited using quickedit+
 cd $HOME
 echo "installing dependencies"
 echo "It is mandatory to install Termux-api app"
