@@ -6,7 +6,7 @@
 #find -L ~/storage/shared/ -type f -ipath $strf  >>mp4.list
 #quickedit+
 #lets define color config for easy use
-
+#fix for android 11 coming
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 LGREEN='\033[1;32m'
