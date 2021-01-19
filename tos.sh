@@ -124,7 +124,7 @@ case $? in
         echo "Searching $kwery.......... wait"
         echo "-----------"
         echo ""
-        find -L  /storage/ -type f -ipath "$kwery" >all.list #this my external sdcard
+        find -L  /storage/0ECE-1F1A/ -type f -ipath "$kwery" >all.list #this my external sdcard
         find -L  ~/storage/shared/ -type f -ipath "$kwery"  >>all.list #this my internal sdcar
    
         ;;
