@@ -166,6 +166,7 @@ case $? in
         ;;
         0)
         exit
+        ;;
         9)
           $DIALOG --title "Expert Mode" --clear \
         --inputbox "What is the Volume Label of your External Sdcard? \n It must be an exact name. Search how to get my sdcard name in google" 0 0 "$(<extvol)" 2>extvol
