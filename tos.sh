@@ -72,14 +72,15 @@ case $? in
         loc=$(<location)
         case "$loc" in
         2)
-        find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
-        find -L  /storage/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
-        find -L  /storage/ -type f -ipath '*.mp3'  >>all.list #this my external sdcard
+    #    find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
+ #       find -L  /storage/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
+  #      find -L  /storage/ -type f -ipath '*.mp3'  >>all.list #this my external sdcard
         
         #below is my device specific 0ECE-1F1A
         #i upgraded my device from android 10 to 11, this my fix to read from external affairs
         # need to define my external sdcard
          extsd=$(<extvol)
+         echo "External SDCARD: $extsd"
         find -L  /storage/"$extsd"/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
         find -L  /storage/"$extsd"/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
         find -L  /storage/"$extsd"/ -type f -ipath '*.mp3'  >>all.list #th
@@ -96,17 +97,15 @@ case $? in
       ;;
       3) 
         
-        find -L  /storage/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
-        find -L  /storage/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
-        find -L  /storage/ -type f -ipath '*.mp3'  >>all.list #th
-        
-
         #below is my device specific 0ECE-1F1A
         #i upgraded my device from android 10 to 11, this my fix to read from external affairs
         # need to define my external sdcard
-        find -L  /storage/0ECE-1F1A/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
-        find -L  /storage/0ECE-1F1A/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
-        find -L  /storage/0ECE-1F1A/ -type f -ipath '*.mp3'  >>all.list #th
+        extsd=$(<extvol)
+        echo "External SDCARD: $extsd"
+        find -L  /storage/"$extsd"/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
+        find -L  /storage/"$extsd"/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
+        find -L  /storage/"$extsd"/ -type f -ipath '*.mp3'  >>all.list #th
+        find -L  /storage/"$extsd"/ -type f -ipath '*.opus'  >>all.list #th
 
         find -L ~/storage/shared/ -type f -ipath '*.mp3' >>all.list
         find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
@@ -127,7 +126,9 @@ case $? in
         echo "Searching $kwery.......... wait"
         echo "-----------"
         echo ""
-        find -L  /storage/0ECE-1F1A/ -type f -ipath "$kwery" >all.list #this my external sdcard
+        extsd=$(<extvol)
+        echo "External SDCARD: $extsd"
+        find -L  /storage/"$extsd"/ -type f -ipath "$kwery" >all.list #this my external sdcard
         find -L  ~/storage/shared/ -type f -ipath "$kwery"  >>all.list #this my internal sdcar
    
         ;;
