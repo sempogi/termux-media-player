@@ -93,6 +93,7 @@ case $? in
         find -L ~/storage/shared/ -type f -ipath '*.mp3' >all.list
         find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
         find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+        find -L ~/storage/shared/ -type f -ipath '*.opus'  >>all.list
         echo "Internal"> strloc
       ;;
       3) 
@@ -110,6 +111,7 @@ case $? in
         find -L ~/storage/shared/ -type f -ipath '*.mp3' >>all.list
         find -L ~/storage/shared/ -type f -ipath '*.mp4' >>all.list
         find -L ~/storage/shared/ -type f -ipath '*.m4a'  >>all.list
+        find -L ~/storage/shared/ -type f -ipath '*.opus'  >>all.list
       echo "Whole Device"> strloc
       ;;
       4)
