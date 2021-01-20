@@ -60,7 +60,8 @@ case $? in
         "6" "Update This Script from repo" off \
         "7" "Edit Playlist Script" off \
         "8" "Set Default Volume" off \
-        "9" "Exit App" off 2>location
+        "9" "Enter your External Volume Label" off \
+        "0" "Exit App" off 2>location
 
   clear
         figlet " "SEM
@@ -78,9 +79,11 @@ case $? in
         #below is my device specific 0ECE-1F1A
         #i upgraded my device from android 10 to 11, this my fix to read from external affairs
         # need to define my external sdcard
-        find -L  /storage/0ECE-1F1A/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
-        find -L  /storage/0ECE-1F1A/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
-        find -L  /storage/0ECE-1F1A/ -type f -ipath '*.mp3'  >>all.list #th
+         extsd=$(<extvol)
+        find -L  /storage/"$extsd"/ -type f -ipath '*.m4a'  >all.list #this my external sdcard
+        find -L  /storage/"$extsd"/ -type f -ipath '*.mp4'  >>all.list #this my external sdcard
+        find -L  /storage/"$extsd"/ -type f -ipath '*.mp3'  >>all.list #th
+        find -L  /storage/"$extsd"/ -type f -ipath '*.opus'  >>all.list #th
 
         echo "External"> strloc
          ;;
@@ -161,7 +164,12 @@ case $? in
         termux-volume music $(<defaultvol)
         exit
         ;;
+        0)
+        exit
         9)
+          $DIALOG --title "Expert Mode" --clear \
+        --inputbox "What is the Volume Label of your External Sdcard? \n It must be an exact name. Search how to get my sdcard name in google" 0 0 "$(<extvol)" 2>extvol
+
         exit
         ;;
       esac
