@@ -8,7 +8,7 @@
 cd $HOME
 echo "installing dependencies"
 echo "It is mandatory to install Termux-api app"
-echo "Please download it from play store"
+echo "Please download it from F-Droid"
 echo "Allow all permission to make everything working"
 echo "please allow termux to access storage"
 sleep 1
