@@ -26,9 +26,10 @@ pkg install mpv
 pkg install ffmpeg
 pkg install jq
 #optional 
-pkg install nodejs
+#remove from instalation process
+#pkg install nodejs
  #use for downloading videos
-pip install --upgrade youtube_dl
+#pip install --upgrade youtube_dl
 
 echo "Setting up Environment"
 if [ -d ~/storage/shared/ ]; then
